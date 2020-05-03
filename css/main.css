@@ -1,0 +1,598 @@
+/* Színek
+#8AD2FF;
+#7DDBE8;
+#97FFEF;
+#7DE8BA;
+#8AFFAB;
+*/
+
+/* Globális, fontos */
+#editor {
+	background-color: #c1c1c1; /* bodynal is van! */
+	float: left;
+	display: block;
+	width: 5000px;
+	height: 5000px;
+	padding-top: 80px;
+	padding-left: 30px;
+	user-select: none;
+}
+
+.rm_attr i {
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-right: 5px;
+	float: left;
+}
+
+#panel {
+    clear: both;
+	position: relative;
+	padding: 5px;
+	margin: 0;
+	width: 84.9%;
+	z-index: 10;
+	background-color: #8AD2FF;
+	border: 1px solid rgba(111,111,111,0.5);
+}
+
+#panel-and-toolbar {
+	position: fixed;
+	width: 100%;
+	z-index: 10;
+}
+
+#toolbar {
+    clear: both;
+	position: relative;
+	padding: 5px;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 10;
+	/*border-top: 1px solid rgba(111,111,111,0.5);*/
+	/*background-color: #8AD2FF;*/
+	vertical-align: middle;
+}
+
+#toolbar .input-group-sm {
+	width: 245px;
+	margin-bottom: 0;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #515151; /* #editornal is van! */
+}
+
+.textview {
+	width: 800px;
+	resize: both;
+	background-color: #ddd;
+}
+
+/* A mozgatható entity containerek CSS tulajdonságai*/
+.entity {
+	font-size: 14px;
+	position: absolute;
+	z-index: 5;
+	border: 1px solid #a3a3a3;
+	text-align: center;
+	min-width: 150px;
+	min-height: 45px;
+    touch-action: none;
+	user-select: none;
+	/* opacity: 0.9; */
+	box-shadow: 1px 1px 5px #000;
+}
+
+.relation {
+	font-size: 14px;
+	position: absolute;
+	z-index: 5;
+	background-color: #8AD2FF;
+	border: 1px solid #a3a3a3;
+	text-align: center;
+	min-width: 150px;
+	min-height: 25px;
+    touch-action: none;
+	user-select: none;
+	/* opacity: 0.9; */
+	box-shadow: 1px 1px 5px #000;
+}
+
+.relation-content, .relation-nomodif {
+	background-color: #eee;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	min-width: 150px;
+	min-height: 0px;
+	scroll-snap-type: y mandatory;
+	resize: none;
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.relation-nomodif p {
+	vertical-align: center;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	line-height: normal;
+	scroll-snap-align: start;
+	background-color: #aaa;
+}
+
+.relation-nomodif p:hover{
+	background-color: #aaa;
+}
+
+.relation-content p {
+	/*border-bottom: 1px dotted black;*/
+	vertical-align: center;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	line-height: normal;
+	scroll-snap-align: start;
+}
+
+.relation-content p:hover {
+	/*border-bottom: 1px dotted black;*/
+	background-color: #ccc;
+}
+
+.relation-header {
+	padding: 10px;
+	height: 40px;
+	cursor: move;
+	z-index: 10;
+	background-color: #a86df0;
+	color: #fff;
+	text-shadow: 1px 1px 1px #000;
+	font-weight: bold;
+}
+
+.entity-content {
+	background-color: #eee;
+	min-width: 150px;
+	scroll-snap-type: y mandatory;
+	resize: none;
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.entity-content p {
+	/*border-bottom: 1px dotted black;*/
+	vertical-align: center;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	scroll-snap-align: start;
+}
+
+.entity-content p:hover {
+	/*border-bottom: 1px dotted black;*/
+	background-color: #ccc;
+}
+
+.rs-anchor {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	margin-top: -4px;
+}
+
+.rs-anchor:hover:after{
+	color: #8AD2FF;
+	text-shadow: 1px 1px 2px #8AD2FF;
+}
+
+.rs-anchor:after{
+	font-size: 20px;
+    content:'\25CB';
+}
+
+.left {
+	float: left;
+	margin-left: -7px;
+	display: none; /* LEFT ANCHOR EMIATT NEM JELENIK MEG (Ikonok miatt útban lenne) */
+}
+
+.right {
+	float: right;
+	margin-right: -7px;
+}
+
+.entity:active, .relation:active {
+	filter: brightness(120%);
+}
+
+.entity:hover {
+	cursor: pointer;
+}
+  
+.entity-header {
+	padding: 10px;
+	height: 40px;
+	cursor: move;
+	z-index: 10;
+	background-color: #7DDBE8;
+	color: #fff;
+	text-shadow: 1px 1px 1px #000;
+	font-weight: bold;
+}
+
+.entity-footer {
+	background-color: #c1c1c1;
+	height: 3px;
+	cursor: move;
+	width: 100%;
+	z-index: 0;
+}
+
+/* ERD-hez formák */
+.egyed {
+	background: #7DDBE8;
+	border: 1px solid #000;
+
+	width: 120px;
+	height: 50px;
+	line-height: 50px;
+
+	z-index: 2;
+}
+
+.egyed p {
+	text-align: center;
+	vertical-align: middle;
+	margin: 0;
+	margin-top: -5px;
+
+	text-overflow: ellipsis;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	overflow: hidden;
+
+	width: 100%;
+	height: 100%;
+}
+
+.weak, .egyed.weak {
+	border: 4px double #000;
+}
+
+.relacio {
+	background: #7DDBE8;
+	border: 1px solid #000;
+	width: 100px;
+	
+	height: 100px;
+
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+
+	z-index: 2;
+}
+
+.relacio p {
+	line-height: 100px;
+
+	text-align: center;
+	vertical-align: middle;
+	margin: 0;
+	margin-top: -5px;
+
+	z-index: 1;
+
+	text-overflow: ellipsis;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	overflow: hidden;
+
+	width: 100%;
+	height: 100%;
+
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+}
+
+.attributum {
+    width: 140px;
+	height: 70px;
+	background: #7DDBE8;
+	border: 1px solid #000;
+    -moz-border-radius: 100px / 50px;
+    -webkit-border-radius: 100px / 50px;
+	border-radius: 100px / 50px;
+	z-index: 2;
+}
+
+
+
+.pk {
+	/*font-weight: bold;*/
+	text-decoration: underline;
+}
+
+.composite, .attributum.composite {
+    -moz-border-radius: 50px / 40px;
+    -webkit-border-radius: 50px / 40px;
+	border-radius: 50px / 40px;
+	border-color: #555;
+}
+
+.multiValued, .attributum.multiValued {
+	border-style: double;
+	border-width: 4px;
+}
+
+.optional {
+	color: #777777;
+	text-shadow: 1px 1px 3px #000000aa;
+}
+
+.derived, .attributum.derived {
+	border-style: dashed;
+}
+
+
+.attributum p {
+	line-height: 70px;
+	text-align: center;
+	text-overflow: ellipsis;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	overflow: hidden;
+	width: 100%;
+	height: 100%
+}
+
+.active-edit { /* Epp modositott div */
+	background: #fff;
+	border: 1px dashed #f00;
+	box-shadow: 2px 2px 5px #f00;
+}
+
+.egyed:hover .conn-base,.attributum:hover .conn-base,.relacio:hover .conn-base {
+	opacity: 1;
+}
+
+.egyed:hover,.attributum:hover,.relacio:hover {
+	filter: brightness(110%);
+}
+
+.active-connector ,.rm_attr.active-connector { /* Epp modositott div */
+	border: 1px dashed #000;
+	filter: brightness(110%);
+	transform: none;
+}
+
+.active-connector { /* Epp modositott div */
+	background: #55ff55;
+	border: 1px dashed #000;
+	filter: brightness(50%);
+	transform: scale(1.05);
+	transition: 0.2s;
+}
+
+.active-connector ,.rm_attr.active-connector:hover { /* Epp modositott div */
+	background: #55ff55;
+}
+
+.active-action {
+	background: #55ff55;
+	border: 1px dashed #000;
+}
+
+.conn-base {
+	position: absolute;
+	background-color: #ffffff88;
+	width: 10px;
+	height: 10px;
+	border: 1px solid #00000088;
+	opacity: 0;
+	color: #fff;
+	text-shadow: 2px 2px 5px black;
+}
+
+.cardinality {
+	pointer-events: none;
+	position: absolute;
+	float: left;
+	width: 10px;
+	height: 10px;
+	color: #000;
+	transform: rotate(-45deg);
+	top: 95px;
+	left: -30px;
+	z-index: 1;
+}
+
+.card-to, .cardinality.card-to {
+	pointer-events: none;
+	position: absolute;
+	float: left;
+	width: 10px;
+	height: 10px;
+	color: #000;
+	transform: rotate(-45deg);
+	top: -18px;
+	left: 85px;
+	z-index: 1;
+}
+
+.cardinality p {
+	z-index: 1;
+}
+
+/* Felesleges forgatas, csak nehezitette az osszekotest (de viszonylag jol nezett ki)
+.conn-egyed {
+	transform: rotate(-45deg);
+}
+
+.conn-action {
+	transform: rotate(45deg);
+}*/
+
+.conn-base:hover {
+	background-color: #ffff00bb;
+	transform: scale(1.2);
+	transition: 0.2s;
+}
+
+.conn-base:hover .conn-wrong:hover {
+	background-color: #ff0000bb;
+}
+
+.conn-extra {
+	top: -5px;
+	left: -5px;
+}
+
+.conn-to {
+	top: -5px;
+	right: -5px;
+}
+
+.conn-from {
+	bottom: -5px;
+	left: -5px;
+}
+
+
+.conn-left {
+	top: 40%;
+	left: -5px;
+}
+
+.conn-right {
+	top: 40%;
+	right: -5px;
+}
+
+.conn-bottom {
+	bottom: -5px;
+	left: 47%;
+}
+
+.conn-top {
+	top: -5px;
+	left: 47%;
+}
+
+
+
+/* Right click context menü */
+
+.dropdown-menu {
+	width: max-content;
+}
+
+.dropdown-menu li {
+	padding-right: 10px;
+}
+
+.dropdown-menu li:hover{
+	background-color: #ddddddaa;
+}
+
+.dropdown-menu .unimplemented:hover{
+	background-color: #00000000;
+}
+
+.dropdown-menu .red{
+	background-color: #ff0000aa;
+}
+.dropdown-menu .red:hover{
+	background-color: #ff0000ff;
+}
+
+.dropdown-menu .green{
+	background-color: #00ff00aa;
+}
+.dropdown-menu .green:hover{
+	background-color: #00ff00ff;
+}
+
+.dropdown-menu a {
+	color: #000;
+	text-decoration: none;
+}
+
+.dropdown-menu .unimplemented a{
+	color: #ccccccaa;
+}
+
+
+/* Egyebek */
+
+svg {
+	pointer-events: none;
+	filter: drop-shadow( 2px 2px 3px rgba(0, 0, 0, .7));
+}
+
+.vonal {
+	stroke-width:2px;
+	stroke-linecap: round;
+	stroke:rgba(0,0,0,0.8);
+	position: absolute;
+	pointer-events: all;
+}
+
+.vonal:hover {
+	stroke-width: 10px;
+	opacity: 1;
+}
+
+.notarget, .vonal.notarget {
+	pointer-events: none;
+}
+
+.connector {
+	stroke-width:5px;
+	stroke:rgba(255,255,0,0.8);
+}
+
+.connector:hover {
+	stroke-width: 5px;
+	opacity: 1;
+}
+
+.good {
+	stroke-width:5px;
+	stroke:rgba(0,255,0,1);
+}
+
+
+.wrong {
+	stroke-width:5px;
+	stroke-dasharray: 5;
+	stroke:rgba(255,0,0,1);
+	stroke-linecap: butt;
+}
+
+
+svg {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+}
+
+#map {
+	position: fixed;
+	float: right;
+    top: 0;
+    right: 0;
+	width: 15% !important; /* TODO: Enelkul talan jobb. Nem fontos Todo. lehet maradhat igy is. (Igy szet van huzva a map neha...)*/
+	height: 25% !important;
+	z-index: 100;
+	border: 1px solid rgba(111,111,111,0.5);
+}
